@@ -179,12 +179,10 @@ if message.from_user:
     if username := message.from_user.username:
         tag = f"@{username}"
     else:
-        tag = message.from_user.mention
+        tag = message.from_user.mention if hasattr(message.from_user, 'mention') else None
 else:
     tag = message.sender_chat.title if message.sender_chat else None
 
-
-        
     decrypter = None
     if not link and (reply_to := message.reply_to_message):
         if reply_to.text:
