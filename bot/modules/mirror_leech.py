@@ -174,7 +174,7 @@ async def _mirror_leech(client, message, isQbit=False, isLeech=False, sameDir=No
             pass
     elif sender_chat := message.sender_chat:
         tag = sender_chat.title
-    if username := message.from_user.username:
+    if message.from_user and (username := message.from_user.username):
         tag = f"@{username}"
     else:
         tag = message.from_user.mention
