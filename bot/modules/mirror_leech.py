@@ -166,23 +166,19 @@ async def _mirror_leech(client, message, isQbit=False, isLeech=False, sameDir=No
     path = f'{DOWNLOAD_DIR}{message.id}{folder_name}'
 
     if len(text) > 1 and text[1].startswith('Tag: '):
-    tag_split = text[1].split('Tag: ')
-    if len(tag_split) > 1:
-        tag, id_ = tag_split[1].split()
+        tag, id_ = text[1].split('Tag: ')[1].split()
         message.from_user = await client.get_users(id_)
         try:
             await message.unpin()
         except:
             pass
-
-if message.from_user:
+    elif sender_chat := message.sender_chat:
+        tag = sender_chat.title
     if username := message.from_user.username:
         tag = f"@{username}"
     else:
-        tag = message.from_user.mention if hasattr(message.from_user, 'mention') else None
-else:
-    tag = message.sender_chat.title if message.sender_chat else None
-
+        tag = message.from_user.mention
+        
     decrypter = None
     if not link and (reply_to := message.reply_to_message):
         if reply_to.text:
